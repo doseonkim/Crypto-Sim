@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">CryptoSim</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="USD_MAP">USD MAP STRING</string>
+    <string name="BTC_MAP">BTC MAP STRING</string>
+    <string name="COIN_LIST">COIN LIST UNIQUE STRING</string>
+
+    <string name="MARKET_LIST">MARKET LIST UNIQUE STRING</string>
+    <string name="MARKET_MAP">MARKET MAP UNIQUE STRING</string>
+    <string name="WALLET_MAP">WALLET MAP UNIQUE STRING</string>
+
+    <string name="DETAIL_MARKET_NAME">DETAIL COIN NAME UNIQUE STRING</string>
+    <string name="DETAIL_MARKET_MAP">DETAIL COIN USD UNIQUE STRING</string>
+
+
+</resources>
