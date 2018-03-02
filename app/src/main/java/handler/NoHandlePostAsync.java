@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.doseon.cryptosim.MarketActivity;
 import com.example.doseon.cryptosim.MarketListActivity;
 import com.example.doseon.cryptosim.R;
 
@@ -39,7 +40,7 @@ public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
     /**
      * Market list Activity.
      */
-    private MarketListActivity activity;
+    private MarketActivity activity;
 
     private Posts postInfo;
 
@@ -52,7 +53,7 @@ public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
      *
      * @param activity SearchActivity
      */
-    public NoHandlePostAsync(MarketListActivity activity, Posts post, String link) {
+    public NoHandlePostAsync(MarketActivity activity, Posts post, String link) {
         this.activity = activity;
         this.postInfo = post;
         this.link = link;

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.doseon.cryptosim.MarketActivity;
 import com.example.doseon.cryptosim.MarketListActivity;
 import com.example.doseon.cryptosim.R;
 
@@ -54,7 +56,7 @@ public class UpdatePricesFromAPIAsync extends AsyncTask<Void, Void, String> {
     /**
      * SearchActivity.
      */
-    private MarketListActivity activity;
+    private MarketActivity activity;
 
     // Map of the markets to store the market ID for detail search.
     private HashMap<String, Market> market_map;
@@ -65,19 +67,22 @@ public class UpdatePricesFromAPIAsync extends AsyncTask<Void, Void, String> {
 
     private Fragment nextFrag;
 
+    private boolean replace;
+
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
      * @param activity MarketListActivity
      */
-    public UpdatePricesFromAPIAsync(MarketListActivity activity, String market_name,
+    public UpdatePricesFromAPIAsync(MarketActivity activity, String market_name,
                                     HashMap<String, Market> market_map,
-                                    Fragment nextFrag, AtomicInteger counter) {
+                                    Fragment nextFrag, AtomicInteger counter, boolean replace) {
         this.activity = activity;
         this.market_map = market_map;
         this.market_name = market_name;
         this.nextFrag = nextFrag;
         this.counter = counter;
+        this.replace = replace;
     }
 
     /**
@@ -157,11 +162,18 @@ public class UpdatePricesFromAPIAsync extends AsyncTask<Void, Void, String> {
                     args.putSerializable(activity.getString(R.string.BTC_MAP), myBTCMap);
                     clf.setArguments(args);*/
                     if (nextFrag != null) {
-                        android.support.v4.app.FragmentTransaction transaction = activity.
-                                getSupportFragmentManager()
-                                .beginTransaction().replace(R.id.main_container, nextFrag)
-                                .addToBackStack(null);
-                        transaction.commit();
+                        if (replace) {
+                            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.main_container, nextFrag)
+                                    .commit();
+                        } else {
+                            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.main_container, nextFrag)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                     }
                }
             } catch (Exception ex) {

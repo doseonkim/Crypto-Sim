@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doseon.cryptosim.MarketActivity;
 import com.example.doseon.cryptosim.MarketListActivity;
 import com.example.doseon.cryptosim.R;
 
@@ -43,7 +44,7 @@ public class StartTransactionPostAsync extends AsyncTask<Void, Void, String> {
     /**
      * Market list Activity.
      */
-    private MarketListActivity activity;
+    private MarketActivity activity;
 
     private Posts postInfo;
 
@@ -57,6 +58,8 @@ public class StartTransactionPostAsync extends AsyncTask<Void, Void, String> {
 
     private HashMap<String, BigDecimal> wallet_map;
 
+    private ArrayList<String> wallet_list;
+
     private String email;
 
     /**
@@ -65,7 +68,9 @@ public class StartTransactionPostAsync extends AsyncTask<Void, Void, String> {
      *
      * @param activity SearchActivity
      */
-    public StartTransactionPostAsync(MarketListActivity activity, Posts post, Market market, HashMap<String, BigDecimal> wallet_map,
+    public StartTransactionPostAsync(MarketActivity activity, Posts post, Market market,
+                                     HashMap<String, BigDecimal> wallet_map,
+                                     ArrayList<String> wallet_list,
                                      String email) {
         this.activity = activity;
         this.postInfo = post;
@@ -74,6 +79,7 @@ public class StartTransactionPostAsync extends AsyncTask<Void, Void, String> {
         buy_button = (Button) activity.findViewById(R.id.buy_button);
         this.market = market;
         this.wallet_map = wallet_map;
+        this.wallet_list = wallet_list;
         this.email = email;
     }
 
@@ -145,8 +151,8 @@ public class StartTransactionPostAsync extends AsyncTask<Void, Void, String> {
                     // SUCCESSFUL TRANSACTION
                     transaction_message.setText(message);
 
-                    GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(activity, wallet_map,
-                            this.email, market);
+                    GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(activity, wallet_map, wallet_list,
+                            this.email, market, false);
                     updateWalletTask.execute();
 
                 } else if (code == 500) {

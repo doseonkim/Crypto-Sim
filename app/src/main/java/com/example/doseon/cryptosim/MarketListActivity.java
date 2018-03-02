@@ -16,8 +16,7 @@ import util.Posts;
 
 import static util.Links.TRANSACTION_LINK;
 
-public class MarketListActivity extends AppCompatActivity implements
-        DetailFragment.OnFragmentInteractionListener {
+public class MarketListActivity extends AppCompatActivity {
 
     private ArrayList<String> market_list;
     private HashMap<String, Market> market_map;
@@ -54,7 +53,7 @@ public class MarketListActivity extends AppCompatActivity implements
                 };
                 timer.schedule(doAsynchronousTask, 0, 1000 * 60 * 5); //execute in every 5 minutes*/
 
-                GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(this, wallet_map,
+                /*GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(this, wallet_map,
                         this.email, null);
                 updateWalletTask.execute();
 
@@ -64,12 +63,12 @@ public class MarketListActivity extends AppCompatActivity implements
                 args.putSerializable(getString(R.string.MARKET_MAP), market_map);
                 args.putSerializable(getString(R.string.WALLET_MAP), wallet_map);
                 clf.setArguments(args);
-                updateMarkets(clf);
+                updateMarkets(clf);*/
             }
         }
     }
 
-    public void updateMarkets(Fragment nextFrag) {
+    /*public void updateMarkets(Fragment nextFrag) {
         GetMarketsFromDBAsync updateMarkets= new GetMarketsFromDBAsync(this, market_list, market_map,
                 nextFrag);
         updateMarkets.execute();
@@ -92,7 +91,7 @@ public class MarketListActivity extends AppCompatActivity implements
                 market, wallet_map, email);
         doTransactionTask.execute();
 
-    }
+    }*/
 
 
 /*    private void updateMarketPrice(Fragment nextFrag) {

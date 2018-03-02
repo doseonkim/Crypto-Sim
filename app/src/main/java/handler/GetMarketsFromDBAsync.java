@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.doseon.cryptosim.MarketActivity;
 import com.example.doseon.cryptosim.MarketListActivity;
 
 
@@ -36,7 +37,7 @@ public class GetMarketsFromDBAsync extends AsyncTask<Void, Void, String> {
     /**
      * SearchActivity.
      */
-    private MarketListActivity activity;
+    private MarketActivity activity;
 
     /**
      * List of markets.
@@ -47,18 +48,22 @@ public class GetMarketsFromDBAsync extends AsyncTask<Void, Void, String> {
     private HashMap<String, Market> market_map;
 
     private Fragment nextFrag;
+
+    private boolean replace;
+
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
      * @param activity MarketListActivity
      */
-    public GetMarketsFromDBAsync(MarketListActivity activity, ArrayList<String> market_list,
-                                HashMap<String, Market> market_map,
-                                android.support.v4.app.Fragment nextFrag) {
+    public GetMarketsFromDBAsync(MarketActivity activity, ArrayList<String> market_list,
+                                 HashMap<String, Market> market_map,
+                                 android.support.v4.app.Fragment nextFrag, Boolean replace) {
         this.activity = activity;
         this.market_list = market_list;
         this.market_map = market_map;
         this.nextFrag = nextFrag;
+        this.replace = replace;
     }
 
     /**
@@ -126,13 +131,9 @@ public class GetMarketsFromDBAsync extends AsyncTask<Void, Void, String> {
                     market_map.put(market_name, market);
 
                     UpdatePricesFromAPIAsync updatePriceTask = new UpdatePricesFromAPIAsync(activity,
-                            market_name, market_map, nextFrag, counter);
+                            market_name, market_map, nextFrag, counter, replace);
                     updatePriceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-                    /*GetCoinPricesAPIAsync updatePricesAsync =
-                            new GetCoinPricesAPIAsync(activity, myUSDMap, myBTCMap,
-                                    coin_name, nextFrag, counter);
-                    updatePricesAsync.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
                 }
 
             } catch (Exception ex) {

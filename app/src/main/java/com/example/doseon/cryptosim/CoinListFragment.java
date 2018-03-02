@@ -118,7 +118,7 @@ public class CoinListFragment extends Fragment implements View.OnClickListener,
                     args.putSerializable(getString(R.string.WALLET_MAP), wallet_map);
                     df.setArguments(args);
 
-                    ((MarketListActivity)getActivity()).updateMarkets(df);
+                    ((MarketActivity)getActivity()).updateMarkets(df, false, false);
 
                     return true;
                 }

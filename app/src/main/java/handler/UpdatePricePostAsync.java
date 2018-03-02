@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.doseon.cryptosim.MarketActivity;
 import com.example.doseon.cryptosim.MarketListActivity;
 import com.example.doseon.cryptosim.R;
 
@@ -39,7 +40,7 @@ public class UpdatePricePostAsync extends AsyncTask<Void, Void, String> {
     /**
      * Market list Activity.
      */
-    private MarketListActivity activity;
+    private MarketActivity activity;
 
     private Posts postInfo;
 
@@ -50,7 +51,7 @@ public class UpdatePricePostAsync extends AsyncTask<Void, Void, String> {
      *
      * @param activity SearchActivity
      */
-    public UpdatePricePostAsync(MarketListActivity activity, Posts post) {
+    public UpdatePricePostAsync(MarketActivity activity, Posts post) {
         this.activity = activity;
         this.postInfo = post;
     }
