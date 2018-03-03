@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.doseon.cryptosim.PinFragment">
+
+
+        <TextView
+            android:id="@+id/pin_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6-digit pin was sent to your email.\nType it in here"
+            android:textSize="20dp"
+            android:layout_above="@+id/pin_edit_text"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:id="@+id/pin_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="number"
+            android:maxLength="6"
+            android:layout_above="@+id/pin_submit_button"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/pin_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="28dp" />
+
+        <ProgressBar
+            android:id="@+id/pin_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/pin_edit_text"
+            android:layout_toRightOf="@+id/pin_edit_text"
+            android:visibility="gone" />
+
+    </RelativeLayout>

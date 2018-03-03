@@ -1,5 +1,6 @@
 package handler;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -40,11 +41,9 @@ public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
     /**
      * Market list Activity.
      */
-    private MarketActivity activity;
+    private Activity activity;
 
     private Posts postInfo;
-
-    private String link;
 
 
     /**
@@ -53,10 +52,9 @@ public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
      *
      * @param activity SearchActivity
      */
-    public NoHandlePostAsync(MarketActivity activity, Posts post, String link) {
+    public NoHandlePostAsync(Activity activity, Posts post) {
         this.activity = activity;
         this.postInfo = post;
-        this.link = link;
     }
 
     /**
@@ -71,7 +69,7 @@ public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
         HttpURLConnection urlConnection = null;
         HashMap<String, String> map = postInfo.postSet;
         try {
-            URL urlObject = new URL(link);
+            URL urlObject = new URL(postInfo.url);
             urlConnection = (HttpURLConnection) urlObject.openConnection();
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true);

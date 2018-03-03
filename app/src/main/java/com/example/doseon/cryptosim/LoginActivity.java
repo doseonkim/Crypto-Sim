@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -32,7 +34,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,9 +51,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import handler.ConfirmPinPostAsync;
+import handler.ForgotPassAsync;
+import handler.RegistrationRequirementsHandler;
+import handler.SendEmailPostAsync;
 import util.Posts;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.R.attr.fragment;
+import static util.Links.SEND_EMAIL_URL;
+import static util.Links.STORE_ACC_URL;
 import static util.Links.VERIFY_ACC_URL;
 import static util.Posts.getPostDataString;
 
@@ -83,47 +91,103 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email_text_box);
-        populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password_text_box);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+        if (savedInstanceState == null) {
+            if (findViewById(R.id.fragmentContainer) != null) {
+                // Set up the login form.
+                mEmailView = (AutoCompleteTextView) findViewById(R.id.email_text_box);
+                populateAutoComplete();
+
+                mPasswordView = (EditText) findViewById(R.id.password_text_box);
+                mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                        if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                            attemptLogin();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
+                mEmailSignInButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        attemptLogin();
+                    }
+                });
+
+                Button register_button = (Button) findViewById(R.id.register_button);
+                register_button.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        go_register_fragment();
+                    }
+                });
+
+                Button forgot_button = (Button) findViewById(R.id.forgot_button);
+                forgot_button.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        go_forgot_fragment();
+                    }
+                });
+
+                mLoginFormView = findViewById(R.id.login_form);
+                mProgressView = findViewById(R.id.login_progress);
+
+                mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+
+                String username = mPrefs.getString(getString(R.string.SAVEDNAME), "");
+                String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
+                Integer auto = mPrefs.getInt(getString(R.string.SAVEDAUTO), 0);
+                if (auto == 1) {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("user", username);
+                    params.put("pass", password);
+                    Posts post = new Posts(params, VERIFY_ACC_URL);
+                    mAuthTask = new UserLoginTask(this, username, password, auto, mPrefs, post);
+                    mAuthTask.execute((Void) null);
+                } else {
+                    if (!TextUtils.isEmpty(username)) {
+                        mEmailView.setText(username);
+                    }
                 }
-                return false;
             }
-        });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-
-        mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        String username = mPrefs.getString(getString(R.string.SAVEDNAME), "");
-        String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
-        Integer auto = mPrefs.getInt(getString(R.string.SAVEDAUTO), 0);
-        if (auto == 1) {
-            HashMap<String, String> params = new HashMap<>();
-            params.put("user", username);
-            params.put("pass", password);
-            Posts post = new Posts(params, VERIFY_ACC_URL);
-            mAuthTask = new UserLoginTask(this, username, password, auto, mPrefs, post);
-            mAuthTask.execute((Void) null);
         }
+    }
 
+    private void go_register_fragment() {
+        Intent intent = (new Intent(this, RegistrationActivity.class));
+        intent.putExtra("REGISTRATION_CODE", 1);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
 
+    }
+
+    private void go_forgot_fragment() {
+
+        String email = mEmailView.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError("You must type in a email.");
+            return;
+        } else {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("name", email);
+            params.put("email", email);
+            Posts pm = new Posts(params, SEND_EMAIL_URL);
+
+            ForgotPassAsync changePass = new ForgotPassAsync(this, email, pm);
+            changePass.execute();
+        }
+        /*Intent intent = (new Intent(this, RegistrationActivity.class));
+        intent.putExtra("REGISTRATION_CODE", 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+        */
     }
 
     private void populateAutoComplete() {
@@ -318,7 +382,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mEmailView.setAdapter(adapter);
     }
-
 
     private interface ProfileQuery {
         String[] PROJECTION = {

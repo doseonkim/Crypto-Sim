@@ -149,6 +149,7 @@ public class MarketActivity extends AppCompatActivity
             String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
             saveToSharedPrefs(username, password, 0);
             startActivity(intent);
+            finish();
         } else if (id == R.id.nav_market) {
             CoinListFragment clf = new CoinListFragment();
             updateMarkets(clf, false, true);

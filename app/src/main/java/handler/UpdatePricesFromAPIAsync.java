@@ -144,9 +144,9 @@ public class UpdatePricesFromAPIAsync extends AsyncTask<Void, Void, String> {
                 params.put("price", price.toString());
 
                 Posts post = new Posts(params);
+                post.url = UPDATE_PRICES_DB_LINK;
 
-                NoHandlePostAsync updateDBPrice = new NoHandlePostAsync(activity, post,
-                        UPDATE_PRICES_DB_LINK);
+                NoHandlePostAsync updateDBPrice = new NoHandlePostAsync(activity, post);
                 updateDBPrice.execute();
 
                 int tasksLeft = this.counter.decrementAndGet();

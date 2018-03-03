@@ -44,5 +44,9 @@
     <string name="SAVEDPASS">SAVED PASS UNIQUE KEY</string>
     <string name="SAVEDAUTO">SAVED AUTO UNIQUE KEY</string>
 
+    <string name="email_key">EMAIL KEY FOR REGISTRATION</string>
+    <string name="password_key">PASS KEY FOR REGISTRATION</string>
+    <string name="name_key">NAME KEY FOR REGISTRATION</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 
 </resources>
