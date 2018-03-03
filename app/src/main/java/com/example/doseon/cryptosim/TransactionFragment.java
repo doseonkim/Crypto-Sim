@@ -50,14 +50,14 @@ public class TransactionFragment extends Fragment {
 
         lv = (ListView) v.findViewById(R.id.transaction_list_view);
 
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.back_to_market_transaction);
+        /*FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.back_to_market_transaction);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CoinListFragment clf = new CoinListFragment();
                 ((MarketActivity) getActivity()).updateMarkets(clf, false, true);
             }
-        });
+        });*/
 
         return v;
     }

@@ -1,5 +1,8 @@
 package com.example.doseon.cryptosim;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,11 +39,14 @@ public class MarketActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DetailFragment.OnFragmentInteractionListener {
 
+
     private ArrayList<String> market_list;
     private HashMap<String, Market> market_map;
     private HashMap<String, BigDecimal> wallet_map;
     private ArrayList<String> wallet_list;
     private String email;
+
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +73,13 @@ public class MarketActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+
         market_list = new ArrayList<String>();
         market_map = new HashMap<String, Market>();
         wallet_map = new HashMap<String, BigDecimal>();
         wallet_list = new ArrayList<String>();
-        this.email = "doseon@uw.edu";
+        this.email = mPrefs.getString(getString(R.string.SAVEDNAME), "");
 
         GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(this, wallet_map, wallet_list,
                 this.email, null, false);
@@ -135,6 +143,15 @@ public class MarketActivity extends AppCompatActivity
         } else if (id == R.id.nav_transaction) {
             GetTransactionFromDBAsync updateTransactionTask = new GetTransactionFromDBAsync(this, this.email);
             updateTransactionTask.execute();
+        } else if (id == R.id.logout) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            String username = mPrefs.getString(getString(R.string.SAVEDNAME), "");
+            String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
+            saveToSharedPrefs(username, password, 0);
+            startActivity(intent);
+        } else if (id == R.id.nav_market) {
+            CoinListFragment clf = new CoinListFragment();
+            updateMarkets(clf, false, true);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -174,5 +191,17 @@ public class MarketActivity extends AppCompatActivity
                 market, wallet_map, wallet_list, email);
         doTransactionTask.execute();
 
+    }
+
+    /**
+     * Saves user credentials to shared preferences.
+     * @param name username
+     * @param pass user password.
+     * @param auto
+     */
+    public void saveToSharedPrefs(String name, String pass, Integer auto) {
+        mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
+        mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
+        mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
     }
 }

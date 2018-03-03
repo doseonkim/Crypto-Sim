@@ -3,6 +3,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_market"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Market" />
+
+        <item
             android:id="@+id/nav_portfolio"
             android:icon="@drawable/ic_menu_send"
             android:title="Portfolio" />
@@ -11,5 +16,11 @@
             android:id="@+id/nav_transaction"
             android:icon="@drawable/ic_menu_send"
             android:title="Transaction" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Logout" />
+
     </group>
 </menu>

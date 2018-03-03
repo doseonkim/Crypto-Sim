@@ -68,14 +68,14 @@ public class PortfolioFragment extends Fragment {
 
         lv = (ListView) v.findViewById(R.id.portfolio_listview);
 
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.back_to_market);
+        /*FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.back_to_market);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CoinListFragment clf = new CoinListFragment();
                 ((MarketActivity) getActivity()).updateMarkets(clf, false, true);
             }
-        });
+        });*/
         return v;
     }
 

@@ -36,4 +36,31 @@ public class Links {
     public static final String GET_TRANSACTION_LINK
             =  "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/get_user_transaction.php";
 
+    // Web Service link to register a user.
+    public static final String STORE_ACC_URL
+            =  "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/register.php";
+    //= "http://farmfresh.getenjoyment.net/register.php";
+
+    // Web service link to verify if the username and password match.
+    public static final String VERIFY_ACC_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/confirm_info.php";
+    //= "http://farmfresh.getenjoyment.net/confirm_info.php";
+
+    // Web service to check if the username exists in the database.
+    public static final String CHECK_USER_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/check_user.php?user=";
+    //= "http://farmfresh.getenjoyment.net/check_user.php?user=";
+
+    // Web service to send email to user.
+    public static final String SEND_EMAIL_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/send_email.php";
+
+    // Web service to confirm the generated pin for the specific account.
+    public static final String CONFIRM_PIN_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/confirm_pin.php";
+
+    // Web service to change the password of a current account.
+    public static final String CHANGE_PASS_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/change_pass.php";
+
 }

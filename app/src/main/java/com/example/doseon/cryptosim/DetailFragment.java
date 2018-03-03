@@ -2,6 +2,7 @@ package com.example.doseon.cryptosim;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -54,6 +55,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private String email;
 
+    private SharedPreferences mPrefs;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -90,8 +93,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         base_balance = (TextView) v.findViewById(R.id.base_balance_text);
         alt_balance = (TextView) v.findViewById(R.id.alt_balance_text);
 
-        this.email = "doseon@uw.edu";
-
         return v;
     }
 
@@ -105,6 +106,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             wallet_map = (HashMap<String, BigDecimal>)
                     getArguments().getSerializable(getString(R.string.WALLET_MAP));
             market = market_map.get(market_name);
+            mPrefs = getActivity().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+
+            this.email = mPrefs.getString(getString(R.string.SAVEDNAME), "");
 
             header.setText(market.getName().toUpperCase().replace('-', '/') + " Market");
 
