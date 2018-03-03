@@ -12,6 +12,8 @@
     <string name="MARKET_MAP">MARKET MAP UNIQUE STRING</string>
     <string name="WALLET_MAP">WALLET MAP UNIQUE STRING</string>
     <string name="WALLET_LIST">WALLET LIST UNIQUE STRING</string>
+    <string name="TRANSACTION_LIST">TRANSACTION LIST UNIQUE STRING</string>
+
 
     <string name="DETAIL_MARKET_NAME">DETAIL COIN NAME UNIQUE STRING</string>
     <string name="DETAIL_MARKET_MAP">DETAIL COIN USD UNIQUE STRING</string>

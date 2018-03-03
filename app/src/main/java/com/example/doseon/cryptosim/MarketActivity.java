@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import handler.GetMarketsFromDBAsync;
+import handler.GetTransactionFromDBAsync;
 import handler.GetWalletFromDBAsync;
 import handler.StartTransactionPostAsync;
 import util.Market;
@@ -131,6 +132,9 @@ public class MarketActivity extends AppCompatActivity
             GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(this, wallet_map, wallet_list,
                     this.email, null, true);
             updateWalletTask.execute();
+        } else if (id == R.id.nav_transaction) {
+            GetTransactionFromDBAsync updateTransactionTask = new GetTransactionFromDBAsync(this, this.email);
+            updateTransactionTask.execute();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

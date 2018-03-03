@@ -33,4 +33,7 @@ public class Links {
     public static final String GET_WALLET_LINK
             =  "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/get_user_wallet.php";
 
+    public static final String GET_TRANSACTION_LINK
+            =  "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/get_user_transaction.php";
+
 }
