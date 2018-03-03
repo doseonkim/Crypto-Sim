@@ -144,8 +144,8 @@ public class CoinListFragment extends Fragment implements View.OnClickListener,
         }*/
 
         for (String mn : market_list) {
-            if (mn.contains("btc-")) btc.add(mn);
-            else if (mn.contains("eth-")) eth.add(mn);
+            if (mn.contains("BTC-")) btc.add(mn);
+            else if (mn.contains("ETH-")) eth.add(mn);
             else usd.add(mn);
         }
 

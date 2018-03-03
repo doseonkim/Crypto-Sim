@@ -59,4 +59,7 @@ public class Links {
     public static final String CHANGE_PASS_URL
             = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/change_pass.php";
 
+    public static final String GET_MARKET_LIST
+            = "https://bittrex.com/api/v1.1/public/getmarkets";
+
 }

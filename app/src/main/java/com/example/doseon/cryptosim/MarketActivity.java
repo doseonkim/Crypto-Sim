@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import handler.GetMarketListAPIAsync;
 import handler.GetMarketsFromDBAsync;
 import handler.GetTransactionFromDBAsync;
 import handler.GetWalletFromDBAsync;
@@ -153,6 +154,9 @@ public class MarketActivity extends AppCompatActivity
         } else if (id == R.id.nav_market) {
             CoinListFragment clf = new CoinListFragment();
             updateMarkets(clf, false, true);
+        } else if (id == R.id.nav_add_market) {
+            GetMarketListAPIAsync getListTask = new GetMarketListAPIAsync(this, market_list, market_map);
+            getListTask.execute();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

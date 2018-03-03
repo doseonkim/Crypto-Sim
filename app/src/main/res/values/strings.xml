@@ -49,4 +49,8 @@
     <string name="name_key">NAME KEY FOR REGISTRATION</string>
     <string name="title_activity_registration">RegistrationActivity</string>
 
+
+    <string name="AVAILABLE_MARKET_LIST">AVAILABLE MARKET LIST KEY FOR ADD</string>
+    <string name="AVAILABLE_MARKET_MAP">AVAILABLE MARKET MAP KEY FOR ADD</string>
+
 </resources>
