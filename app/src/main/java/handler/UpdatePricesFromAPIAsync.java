@@ -44,8 +44,6 @@ import util.Posts;
 import static android.R.attr.id;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static util.Links.BITTREX_API_LINK;
-import static util.Links.GET_COINS_LINK;
-import static util.Links.PRICE_API_LINK;
 import static util.Links.UPDATE_PRICES_DB_LINK;
 
 /**

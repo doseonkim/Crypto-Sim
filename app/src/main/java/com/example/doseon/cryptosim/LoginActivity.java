@@ -482,6 +482,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         finish();
                     } else if (code == 200) {
                         //wrong login
+                        mEmailView.setError("This email does not exist.");
+                        mEmailView.requestFocus();
                     } else if (code == 201){
                         mPasswordView.setError(getString(R.string.error_incorrect_password));
                         mPasswordView.requestFocus();

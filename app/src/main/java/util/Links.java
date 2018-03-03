@@ -6,10 +6,6 @@ package util;
 
 public class Links {
 
-    // Web Service link to get all Coin table database in JSON.
-    public static final String GET_COINS_LINK
-            =  "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/get_coin_list.php";
-
     // Web Service link to get all Market table database in JSON.
     public static final String GET_MARKET_LINK
             =  "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/get_market_list.php";
