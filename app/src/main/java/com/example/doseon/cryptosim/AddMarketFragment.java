@@ -1,6 +1,7 @@
 package com.example.doseon.cryptosim;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import util.Market;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddMarketFragment extends Fragment {
+public class AddMarketFragment extends Fragment implements View.OnClickListener {
 
     private Spinner market_spinner;
 
@@ -32,6 +33,8 @@ public class AddMarketFragment extends Fragment {
     private HashMap<String, Market> available_market_map;
 
     private Market current_market;
+
+    private OnFragmentInteractionListener mListener;
 
     public AddMarketFragment() {
         // Required empty public constructor
@@ -60,12 +63,7 @@ public class AddMarketFragment extends Fragment {
         });
 
         Button add_button = (Button) v.findViewById(R.id.add_market_button);
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                current_market.printData();
-            }
-        });
+        add_button.setOnClickListener(this);
 
         return v;
     }
@@ -87,7 +85,48 @@ public class AddMarketFragment extends Fragment {
             market_spinner.setAdapter(adapter);
 
         }
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * Handles clicking on change password button.
+     * @param v View.
+     */
+    @Override
+    public void onClick(View v) {
+        if (mListener != null) {
+            switch(v.getId()) {
+                case R.id.add_market_button:
+                    mListener.add_market(current_market);
+            }
+        }
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void add_market(Market market);
     }
 
 

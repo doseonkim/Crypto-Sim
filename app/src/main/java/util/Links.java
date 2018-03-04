@@ -62,4 +62,8 @@ public class Links {
     public static final String GET_MARKET_LIST
             = "https://bittrex.com/api/v1.1/public/getmarkets";
 
+    // Web service to change the password of a current account.
+    public static final String ADD_MARKET_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/add_market.php";
+
 }

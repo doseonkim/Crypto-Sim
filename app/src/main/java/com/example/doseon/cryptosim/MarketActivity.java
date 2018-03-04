@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import handler.AddMarketPostAsync;
 import handler.GetMarketListAPIAsync;
 import handler.GetMarketsFromDBAsync;
 import handler.GetTransactionFromDBAsync;
@@ -34,11 +35,12 @@ import util.Market;
 import util.Posts;
 
 import static android.R.attr.type;
+import static util.Links.ADD_MARKET_URL;
 import static util.Links.TRANSACTION_LINK;
 
 public class MarketActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        DetailFragment.OnFragmentInteractionListener {
+        DetailFragment.OnFragmentInteractionListener, AddMarketFragment.OnFragmentInteractionListener {
 
 
     private ArrayList<String> market_list;
@@ -208,5 +210,18 @@ public class MarketActivity extends AppCompatActivity
         mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
         mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
         mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
+    }
+
+    @Override
+    public void add_market(Market market) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("name", market.getName());
+        params.put("base_coin", market.getBaseCoin());
+        params.put("alt_coin", market.getAltCoin());
+
+        Posts post = new Posts(params, ADD_MARKET_URL);
+        AddMarketPostAsync add_market_task = new AddMarketPostAsync(this, market, wallet_list, wallet_map,
+                this.email, post);
+        add_market_task.execute();
     }
 }
