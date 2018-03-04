@@ -15,12 +15,14 @@ public class Market implements Serializable {
     String base_coin;
     String alt_coin;
     BigDecimal price;
+    Boolean tradeable;
 
-    public Market(String market_name, String base_coin, String alt_coin, BigDecimal price) {
+    public Market(String market_name, String base_coin, String alt_coin, BigDecimal price, Boolean tradeable) {
         this.market_name = market_name;
         this.base_coin = base_coin;
         this.alt_coin = alt_coin;
         this.price = price;
+        this.tradeable = tradeable;
     }
 
     public BigDecimal getPrice() {
@@ -36,6 +38,12 @@ public class Market implements Serializable {
     public String getBaseCoin() { return this.base_coin; }
 
     public String getAltCoin() { return this.alt_coin; }
+
+    public Boolean getTradeable() {return this.tradeable; }
+
+    public void setTradeable(Boolean trade) {
+        this.tradeable = trade;
+    }
 
     public void printData() {
         StringBuilder sb = new StringBuilder();

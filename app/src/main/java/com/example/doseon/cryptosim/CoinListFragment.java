@@ -22,6 +22,8 @@ import handler.GetMarketsFromDBAsync;
 import util.CustomExpandableListAdapter;
 import util.Market;
 
+import static android.media.CamcorderProfile.get;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,29 +102,41 @@ public class CoinListFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v,
                                             int groupPosition, int childPosition, long id) {
-                    /*Toast.makeText(
-                            getActivity().getApplicationContext(),
-                            marketTypes.get(groupPosition)
-                                    + " -> "
-                                    + expandableListDetail.get(
-                                    marketTypes.get(groupPosition)).get(
-                                    childPosition), Toast.LENGTH_SHORT
-                    ).show();*/
 
                     DetailFragment df = new DetailFragment();
                     Bundle args = new Bundle();
+                    String current_market_name = expandableListDetail.get(
+                            marketTypes.get(groupPosition)).get(childPosition);
+                    Market current_market = market_map.get(current_market_name);
 
-                    args.putString(getString(R.string.DETAIL_MARKET_NAME), expandableListDetail.get(
-                            marketTypes.get(groupPosition)).get(childPosition));
-                    args.putSerializable(getString(R.string.DETAIL_MARKET_MAP), market_map);
-                    args.putSerializable(getString(R.string.WALLET_MAP), wallet_map);
-                    df.setArguments(args);
+                    if (current_market.getTradeable()) {
 
-                    ((MarketActivity)getActivity()).updateMarkets(df, false, false);
+                        args.putString(getString(R.string.DETAIL_MARKET_NAME), expandableListDetail.get(
+                                marketTypes.get(groupPosition)).get(childPosition));
+                        args.putSerializable(getString(R.string.DETAIL_MARKET_MAP), market_map);
+                        args.putSerializable(getString(R.string.WALLET_MAP), wallet_map);
+                        df.setArguments(args);
+
+                        ((MarketActivity) getActivity()).updateMarkets(df, false, false);
+                    } else {
+                        Toast.makeText(
+                                getActivity().getApplicationContext(),
+                                "Market [" + current_market_name + "] is currently disabled." ,
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                     return true;
                 }
             });
+            /*
+            for (String s : expandableListDetail.keySet()) {
+                for (int i = 0; i < expandableListDetail.get(s).size(); i++) {
+                    String market_name = expandableListDetail.get(s).get(i);
+                    Market market = market_map.get(market_name);
+                    if (!market.getTradeable()) {
+                    }
+                }
+            }*/
         }
 
     }
@@ -136,12 +150,6 @@ public class CoinListFragment extends Fragment implements View.OnClickListener,
         List<String> btc = new ArrayList<String>();
         List<String> eth = new ArrayList<String>();
         List<String> usd = new ArrayList<String>();
-
-        /*for (String mn : market_list) {
-            if (mn.contains("btc-")) btc.add(market_map.get(mn).getAltCoin());
-            else if (mn.contains("eth-")) eth.add(market_map.get(mn).getAltCoin());
-            else usd.add(market_map.get(mn).getAltCoin());
-        }*/
 
         for (String mn : market_list) {
             if (mn.contains("BTC-")) btc.add(mn);

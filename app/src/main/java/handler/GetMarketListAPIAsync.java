@@ -121,7 +121,7 @@ public class GetMarketListAPIAsync extends AsyncTask<Void, Void, String> {
                     String alt_coin = obj.getString("MarketCurrencyLong");
 
                     if (!market_list.contains(market_name)) {
-                        Market market = new Market(market_name, base_coin, alt_coin, new BigDecimal(1));
+                        Market market = new Market(market_name, base_coin, alt_coin, new BigDecimal(1), true);
                         available_market_list.add(market_name);
                         available_market_map.put(market_name, market);
                     }

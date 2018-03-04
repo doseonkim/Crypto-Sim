@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import util.Market;
 
 
+import static com.example.doseon.cryptosim.R.menu.market;
 import static util.Links.GET_MARKET_LINK;
 
 /**
@@ -102,7 +103,7 @@ public class GetMarketsFromDBAsync extends AsyncTask<Void, Void, String> {
      */
     @Override
     protected void onPostExecute(String response) {
-        Log.d("API_TEST", response);
+        Log.d("LOADING FROM DB MARKET", response);
         // Something wrong with the network or the URL.
         if (response.startsWith("Unable to")) {
             Toast.makeText(activity.getApplicationContext(), response, Toast.LENGTH_LONG)
@@ -124,8 +125,14 @@ public class GetMarketsFromDBAsync extends AsyncTask<Void, Void, String> {
                     String base_coin = obj.getString("base_coin");
                     String alt_coin = obj.getString("alt_coin");
                     BigDecimal price = BigDecimal.valueOf(obj.getDouble("price"));
+                    Boolean can_trade = false;
+                    if (obj.getInt("tradeable") == 1) {
+                        can_trade = true;
+                    }
 
-                    Market market = new Market(market_name, base_coin, alt_coin, price);
+                    Market market = new Market(market_name, base_coin, alt_coin, price, can_trade);
+
+                    //market.printData();
 
                     market_list.add(market_name);
                     market_map.put(market_name, market);
