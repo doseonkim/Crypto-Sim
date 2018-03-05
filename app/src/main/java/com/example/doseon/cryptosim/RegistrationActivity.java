@@ -171,7 +171,7 @@ public class RegistrationActivity extends AppCompatActivity implements
             saveInfoTask.execute();
             //GO BACK TO LOGIN FRAGMENT AND OPEN TOASTER.
 
-            saveToSharedPrefs(email, new_pass.toString(), 0);
+            saveToSharedPrefs(email, new_pass.toString(), 0, 0);
 
             Bundle args = new Bundle();
 
@@ -193,10 +193,11 @@ public class RegistrationActivity extends AppCompatActivity implements
      * @param pass user password.
      * @param auto
      */
-    public void saveToSharedPrefs(String name, String pass, Integer auto) {
+    public void saveToSharedPrefs(String name, String pass, Integer auto, Integer admin) {
         mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
         mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
         mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
+        mPrefs.edit().putInt(getString(R.string.SAVEDADMIN), admin).apply();
     }
 
 }

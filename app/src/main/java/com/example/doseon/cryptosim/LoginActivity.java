@@ -469,12 +469,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     JSONObject mainObject = new JSONObject(response);
                     String message = mainObject.getString("message");
                     Integer code = mainObject.getInt("code");
+                    Integer admin = mainObject.getInt("admin");
+
                     if (code == 300) {
                         //success
 
 
                         //activity.saveToSqlite(username, pass, auto);
-                        saveToSharedPrefs(username, pass, auto);
+                        saveToSharedPrefs(username, pass, auto, admin);
                         Intent intent = (new Intent(activity, MarketActivity.class));
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -512,10 +514,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * @param pass user password.
      * @param auto
      */
-    public void saveToSharedPrefs(String name, String pass, Integer auto) {
+    public void saveToSharedPrefs(String name, String pass, Integer auto, Integer admin) {
         mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
         mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
         mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
+        mPrefs.edit().putInt(getString(R.string.SAVEDADMIN), admin).apply();
     }
 }
 

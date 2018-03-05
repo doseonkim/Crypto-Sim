@@ -18,14 +18,26 @@
             android:title="Transaction" />
 
         <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Logout" />
+
+    </group>
+
+    <group
+        android:id="@+id/nav_admin_group"
+        android:checkableBehavior="single"
+        android:visible="false">
+
+        <item
             android:id="@+id/nav_add_market"
             android:icon="@drawable/ic_menu_manage"
             android:title="Add Market" />
 
         <item
-            android:id="@+id/logout"
+            android:id="@+id/nav_remove_market"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Logout" />
+            android:title="Remove Market" />
 
     </group>
 </menu>

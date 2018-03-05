@@ -43,6 +43,7 @@
     <string name="SAVEDNAME">SAVED EMAIL</string>
     <string name="SAVEDPASS">SAVED PASS UNIQUE KEY</string>
     <string name="SAVEDAUTO">SAVED AUTO UNIQUE KEY</string>
+    <string name="SAVEDADMIN">SAVED ADMIN UNIQUE KEY</string>
 
     <string name="email_key">EMAIL KEY FOR REGISTRATION</string>
     <string name="password_key">PASS KEY FOR REGISTRATION</string>

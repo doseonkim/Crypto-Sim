@@ -220,7 +220,7 @@ public class ConfirmPinPostAsync extends AsyncTask<Void, Void, String> {
             Bundle args = new Bundle();
             //args.putSerializable(activity.getString(R.string.email_key), email);
 
-            activity.saveToSharedPrefs(email, pass, 0);
+            activity.saveToSharedPrefs(email, pass, 0, 0);
             Intent intent = new Intent(activity, LoginActivity.class);
             activity.startActivity(intent);
             activity.finish();

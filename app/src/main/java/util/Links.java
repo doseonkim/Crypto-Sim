@@ -14,9 +14,6 @@ public class Links {
     public static final String UPDATE_PRICES_LINK
             = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/update_coin_data.php";
 
-    public static final String PRICE_API_LINK
-            = "https://api.coinmarketcap.com/v1/ticker/";
-
     public static final String BITTREX_API_LINK
             = "https://bittrex.com/api/v1.1/public/getmarketsummary?market=";
 
@@ -65,5 +62,8 @@ public class Links {
     // Web service to change the password of a current account.
     public static final String ADD_MARKET_URL
             = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/add_market.php";
+
+    public static final String REMOVE_MARKET_URL
+            = "http://cssgate.insttech.washington.edu/~doseon/CryptoSim/remove_market.php";
 
 }

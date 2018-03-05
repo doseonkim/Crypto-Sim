@@ -30,17 +30,20 @@ import handler.GetMarketListAPIAsync;
 import handler.GetMarketsFromDBAsync;
 import handler.GetTransactionFromDBAsync;
 import handler.GetWalletFromDBAsync;
+import handler.RemoveMarketPostAsync;
 import handler.StartTransactionPostAsync;
 import util.Market;
 import util.Posts;
 
 import static android.R.attr.type;
 import static util.Links.ADD_MARKET_URL;
+import static util.Links.REMOVE_MARKET_URL;
 import static util.Links.TRANSACTION_LINK;
 
 public class MarketActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        DetailFragment.OnFragmentInteractionListener, AddMarketFragment.OnFragmentInteractionListener {
+        DetailFragment.OnFragmentInteractionListener, AddMarketFragment.OnFragmentInteractionListener,
+        RemoveMarketFragment.OnFragmentInteractionListener {
 
 
     private ArrayList<String> market_list;
@@ -83,6 +86,12 @@ public class MarketActivity extends AppCompatActivity
         wallet_map = new HashMap<String, BigDecimal>();
         wallet_list = new ArrayList<String>();
         this.email = mPrefs.getString(getString(R.string.SAVEDNAME), "");
+        int admin = mPrefs.getInt(getString(R.string.SAVEDADMIN), 0);
+        if (admin == 1) {
+            navigationView.getMenu().setGroupVisible(R.id.nav_admin_group, true);
+        }
+
+        //navigationView.getMenu().setGroupVisible(R.id.group_1, true)
 
         GetWalletFromDBAsync updateWalletTask = new GetWalletFromDBAsync(this, wallet_map, wallet_list,
                 this.email, null, false);
@@ -150,7 +159,7 @@ public class MarketActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             String username = mPrefs.getString(getString(R.string.SAVEDNAME), "");
             String password = mPrefs.getString(getString(R.string.SAVEDPASS), "");
-            saveToSharedPrefs(username, password, 0);
+            saveToSharedPrefs(username, password, 0, 0);
             startActivity(intent);
             finish();
         } else if (id == R.id.nav_market) {
@@ -159,6 +168,19 @@ public class MarketActivity extends AppCompatActivity
         } else if (id == R.id.nav_add_market) {
             GetMarketListAPIAsync getListTask = new GetMarketListAPIAsync(this, market_list, market_map);
             getListTask.execute();
+        } else if (id == R.id.nav_remove_market) {
+            Bundle args = new Bundle();
+            args.putStringArrayList(getString(R.string.MARKET_LIST), market_list);
+            args.putSerializable(getString(R.string.MARKET_MAP), market_map);
+
+            RemoveMarketFragment rmf = new RemoveMarketFragment();
+            rmf.setArguments(args);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_container, rmf)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -206,10 +228,11 @@ public class MarketActivity extends AppCompatActivity
      * @param pass user password.
      * @param auto
      */
-    public void saveToSharedPrefs(String name, String pass, Integer auto) {
+    public void saveToSharedPrefs(String name, String pass, Integer auto, Integer admin) {
         mPrefs.edit().putString(getString(R.string.SAVEDNAME), name).apply();
         mPrefs.edit().putString(getString(R.string.SAVEDPASS), pass).apply();
         mPrefs.edit().putInt(getString(R.string.SAVEDAUTO), auto).apply();
+        mPrefs.edit().putInt(getString(R.string.SAVEDADMIN), admin).apply();
     }
 
     @Override
@@ -223,5 +246,15 @@ public class MarketActivity extends AppCompatActivity
         AddMarketPostAsync add_market_task = new AddMarketPostAsync(this, market, wallet_list, wallet_map,
                 this.email, post);
         add_market_task.execute();
+    }
+
+    @Override
+    public void remove_market(Market market) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("name", market.getName());
+
+        Posts post = new Posts(params, REMOVE_MARKET_URL);
+        RemoveMarketPostAsync remove_market_task = new RemoveMarketPostAsync(this, market, post);
+        remove_market_task.execute();
     }
 }

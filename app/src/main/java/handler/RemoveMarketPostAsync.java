@@ -1,18 +1,16 @@
 package handler;
 
-import android.app.Activity;
+/**
+ * Created by Doseon on 3/4/2018.
+ */
+
+
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.doseon.cryptosim.CoinListFragment;
 import com.example.doseon.cryptosim.MarketActivity;
-import com.example.doseon.cryptosim.MarketListActivity;
-import com.example.doseon.cryptosim.R;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -21,55 +19,52 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
+import util.Market;
 import util.Posts;
 
-import static util.Links.UPDATE_PRICES_LINK;
 import static util.Posts.getPostDataString;
 
-/**
- * Created by Doseon on 2/25/2018.
- */
-
-public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
+public class RemoveMarketPostAsync extends AsyncTask<Void, Void, String> {
     /**
-     * Market list Activity.
+     * SearchActivity.
      */
-    private Activity activity;
+    private MarketActivity activity;
 
-    private Posts postInfo;
+    private Market market;
+
+    private Posts post;
 
 
     /**
      * Constructs GetAPIAsync object.
      * Initializes:
-     *
-     * @param activity SearchActivity
+     * @param activity MarketListActivity
      */
-    public NoHandlePostAsync(Activity activity, Posts post) {
+    public RemoveMarketPostAsync(MarketActivity activity, Market market,
+                              Posts post) {
         this.activity = activity;
-        this.postInfo = post;
+        this.market = market;
+        this.post = post;
     }
 
     /**
      * Runs in background.
-     * Sends POST request to backend.
-     * @param voids no params.
-     * @return string response to onPostExecute.
+     * Sends request to backend to retrieve all coins from database
+     * @return string response (JSON string) to OnPostExecute.
      */
     @Override
-    public String doInBackground(Void... voids) {
+    public String doInBackground(Void... params) {
         String response = "";
         HttpURLConnection urlConnection = null;
-        HashMap<String, String> map = postInfo.postSet;
+        String url = post.url;
+        HashMap<String, String> map = post.postSet;
         try {
-            URL urlObject = new URL(postInfo.url);
+            URL urlObject = new URL(url);
             urlConnection = (HttpURLConnection) urlObject.openConnection();
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true);
@@ -101,39 +96,43 @@ public class NoHandlePostAsync extends AsyncTask<Void, Void, String> {
     }
 
     /**
-     * Decides what to do next depending on response.
-     * Depending on response can:
-     * Successfully register user;
-     * Prompt with incorrect pin;
-     * Prompt with problem in backend;
-     * Prompt with no pin for given email.
-     * @param response determines what to do next.
+     * Converts JSON string to object and populates
+     * list of markets from it.
+     * @param response JSON string.
      */
     @Override
     protected void onPostExecute(String response) {
         // Something wrong with the network or the URL.
         if (response.startsWith("Unable to")) {
-            /*Toast.makeText(activity.getApplicationContext(), response, Toast.LENGTH_LONG)
-                    .show();*/
+            Toast.makeText(activity.getApplicationContext(), response, Toast.LENGTH_LONG)
+                    .show();
             return;
         } else {
             try {
                 JSONObject mainObject = new JSONObject(response);
                 Integer code = mainObject.getInt("code");
-                if (code != 300) {
-                    Toast.makeText(activity.getApplicationContext(),
-                            "Back end error, please try again later.", Toast.LENGTH_LONG).show();
-                    return;
+                String message = "Error occurred, please try again.";
+                if (code == 300) {
+                    //CORRECT PIN
+                    message = market.getName() + " has been removed.";
+                } else {
+                    message = "Back end error, please try again later.";
                 }
+                activity.updateMarkets(new CoinListFragment(), false, true);
+                Toast.makeText(activity.getApplicationContext(),
+                        message, Toast.LENGTH_LONG).show();
+                return;
             } catch (Exception ex) {
                 //not JSON RETURNED
             }
         }
     }
 
+    //
+
     /**
-     * Pre thread initializations of SearchFragment.
-     * Sets button disabled.
+     * Prepares thread.
+     * Sets search button to disabled.
      */
     @Override
     protected void onPreExecute() {
