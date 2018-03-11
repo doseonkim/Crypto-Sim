@@ -1,0 +1,46 @@
+DROP TABLE IF EXISTS Wallet;
+DROP TABLE IF EXISTS Transaction;
+DROP TABLE IF EXISTS Market;
+DROP TABLE IF EXISTS User_Sim;
+
+CREATE TABLE User_Sim(
+username varchar(24) PRIMARY KEY,
+pwd varchar(24) NOT NULL,
+name varchar(24),
+admin TINYINT(1) DEFAULT 0
+);
+
+
+CREATE TABLE Market (
+market_name varchar(24) PRIMARY KEY,
+base_coin varchar(24) NOT NULL,
+alt_coin varchar(24) NOT NULL,
+price decimal(15, 10) NOT NULL DEFAULT 0, 
+tradeable TINYINT(1) NOT NULL DEFAULT 1
+);
+
+INSERT INTO Market(market_name, base_coin, alt_coin, price) VALUES 
+('btc-eth', 'Bitcoin', 'Ethereum', 0.08895201), 
+('btc-ltc', 'Bitcoin', 'Litecoin', .0239),
+('eth-ltc', 'Ethereum', 'Litecoin', .25620681),
+('usdt-btc', 'USDT', 'Bitcoin', 9522.53),
+('usdt-eth', 'USDT', 'Ethereum', 846.01),
+('usdt-ltc', 'USDT', 'Litecoin', 218.57);
+
+
+CREATE TABLE Wallet (
+username varchar(24) PRIMARY KEY,
+Bitcoin decimal(25, 10) NOT NULL DEFAULT 0,
+Ethereum decimal(25, 10) NOT NULL DEFAULT 0,
+Litecoin decimal(25, 10) NOT NULL DEFAULT 0,
+USDT decimal(25,10) NOT NULL DEFAULT 0,
+FOREIGN KEY(username) REFERENCES User_Sim(username)
+);
+
+CREATE TABLE Transaction(
+transaction_id int PRIMARY KEY AUTO_INCREMENT,
+username varchar(24) NOT NULL,
+record varchar(100),
+FOREIGN KEY(username) REFERENCES User_Sim(username)
+);
+
